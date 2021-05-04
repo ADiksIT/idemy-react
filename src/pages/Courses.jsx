@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { TopBar } from '../components/TopBar'
 import {CourseCard} from "../components/CourseCard";
 import {FirestoreCollection} from "@react-firebase/firestore";
 

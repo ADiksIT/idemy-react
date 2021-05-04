@@ -13,6 +13,7 @@ import {FirestoreProvider} from "@react-firebase/firestore";
 import {Course} from "./pages/Course";
 import {useState} from "react";
 import {TopBar} from "./components/TopBar";
+import {Profile} from "./pages/Profile";
 
 const Routing = ({firebaseUser}) => (
     <Router>
@@ -23,7 +24,8 @@ const Routing = ({firebaseUser}) => (
               <Course user={firebaseUser}/>
             </Route>
             <Route path="/profile">
-              profile
+              <TopBar user={firebaseUser}/>
+              <Profile user={firebaseUser}/>
             </Route>
             <Route path="/">
               <TopBar user={firebaseUser}/>

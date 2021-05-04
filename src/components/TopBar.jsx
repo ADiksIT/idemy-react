@@ -10,6 +10,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {FirestoreDocument} from "@react-firebase/firestore";
+import {LibraryAdd} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const TopBar = ({user}) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const renderMenu = (
       <Menu
@@ -92,16 +95,11 @@ export const TopBar = ({user}) => {
             </div>
             <div className={classes.grow} />
             <div>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              {/*<IconButton aria-label="show 17 new notifications" color="inherit">*/}
+              {/*  <Badge badgeContent={17} color="secondary">*/}
+              {/*    <LibraryAdd />*/}
+              {/*  </Badge>*/}
+              {/*</IconButton>*/}
               <FirestoreDocument path={`/clients/${user?.docId}`}>
                 {res => (
                     res.isLoading ? "Loading" : <span>{res?.value?.coins}</span>
@@ -112,6 +110,7 @@ export const TopBar = ({user}) => {
                   aria-label="account of current user"
                   aria-haspopup="true"
                   color="inherit"
+                  onClick={() => history.push('/profile')}
               >
                 <AccountCircle />
               </IconButton>
