@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { TopBar } from '../components/TopBar'
 import {CourseCard} from "../components/CourseCard";
+import {FirestoreCollection} from "@react-firebase/firestore";
 
 const useStyles = makeStyles((theme) => ({
   courseContainer: {
@@ -14,12 +15,15 @@ const useStyles = makeStyles((theme) => ({
 
 export const Courses = () => {
   const classes = useStyles();
-  const arr = [1,2,3,4,5,6,7,8,9,10]
   return (
       <div>
         <TopBar/>
         <div className={classes.courseContainer}>
-          {arr.map(_ => <CourseCard/>)}
+          <FirestoreCollection path="/courses/" >
+            {response => {
+              return response.isLoading ? "Loading" : response.value.map(data => <CourseCard {...data}/>)
+            }}
+          </FirestoreCollection>
         </div>
       </div>
   );

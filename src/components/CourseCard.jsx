@@ -8,11 +8,13 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    height: 350,
     marginBottom: '20px',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    width: '345px',
+    height: '200px'
   },
   courseContainer: {
     padding: '20px 20px 0 20px',
@@ -35,28 +37,26 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
-export const CourseCard = () => {
+export const CourseCard = ({ price, name, image, author }) => {
   const classes = useStyles();
   return (
       <Card className={classes.root}>
         <CardMedia
             className={classes.media}
-            image="https://img-a.udemycdn.com/course/240x135/947098_02ec_2.jpg?LG-z6PpFK6smBLvPtm1a5oHlXM6F3w43ce8k4LZyEOBt_3NMlvL5_3IRYkzikORzu1NbB0w-17zYo2l-VUZ15vB8hmf-4S94BYpV0IN-DtOAdBHNuOgNiobF_Jlx3Yk"
+            image={image}
             title="Paella dish"
         />
         <CardContent>
           <Typography className={classes.name}>
-            Understanding TypeScript - 2021 Edition
+            {name}
           </Typography>
           <Typography className={classes.author}>
-            Google Developers
+            {author}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <span className={classes.price}>
-            11.99 $
+            {price} $
           </span>
         </CardActions>
       </Card>
