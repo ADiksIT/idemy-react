@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import {FirestoreDocument} from "@react-firebase/firestore";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const TopBar = () => {
+export const TopBar = ({user}) => {
   const classes = useStyles();
 
   const renderMenu = (
@@ -101,6 +102,11 @@ export const TopBar = () => {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <FirestoreDocument path={`/clients/${user?.docId}`}>
+                {res => (
+                    res.isLoading ? "Loading" : <span>{res?.value?.coins}</span>
+                )}
+              </FirestoreDocument>
               <IconButton
                   edge="end"
                   aria-label="account of current user"

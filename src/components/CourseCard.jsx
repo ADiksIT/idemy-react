@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import {makeStyles} from "@material-ui/core/styles";
+import { Redirect, useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,10 +38,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const CourseCard = ({ price, name, image, author }) => {
+export const CourseCard = ({ price, name, image, author, id }) => {
   const classes = useStyles();
+  const history = useHistory();
+
   return (
-      <Card className={classes.root}>
+      <Card className={classes.root} onClick={() => history.push(`/courses/${id}`)}>
         <CardMedia
             className={classes.media}
             image={image}

@@ -17,11 +17,11 @@ export const Courses = () => {
   const classes = useStyles();
   return (
       <div>
-        <TopBar/>
         <div className={classes.courseContainer}>
           <FirestoreCollection path="/courses/" >
             {response => {
-              return response.isLoading ? "Loading" : response.value.map(data => <CourseCard {...data}/>)
+              return response.isLoading ? "Loading" : response.value.map((data, idx) =>
+                  <CourseCard {...data} id={response.ids[idx]} key={idx}/>)
             }}
           </FirestoreCollection>
         </div>
