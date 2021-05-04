@@ -9,6 +9,7 @@ import {
 import { firebaseConfig } from './firebaseConfig'
 import {SignInForm} from "./components/Form";
 import {Switch, BrowserRouter as Router, Route} from "react-router-dom";
+import {Courses} from "./pages/Courses";
 
 const Routing = () => (
     <Router>
@@ -21,7 +22,7 @@ const Routing = () => (
             profile
           </Route>
           <Route path="/">
-            courses
+            <Courses/>
           </Route>
         </Switch>
       </div>
@@ -33,7 +34,7 @@ export const App = () => {
       <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
         <FirebaseAuthConsumer>
           {({ isSignedIn }) => {
-            return isSignedIn ? <Routing/> : <SignInForm/>
+            return !isSignedIn ? <Routing/> : <SignInForm/>
           }}
         </FirebaseAuthConsumer>
       </FirebaseAuthProvider>
