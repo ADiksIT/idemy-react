@@ -63,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  userName: {
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  width: '10px'
+  }
 }));
 
 export const TopBar = ({user}) => {
@@ -96,7 +102,7 @@ export const TopBar = ({user}) => {
                 {res => (
                     res.isLoading ? "Loading" : <div>
                       <span>Coins: {res?.value?.coins} </span> 
-                      <span> User: {res?.value?.displayName}</span>
+                      <span className={classes.userName}> {res?.value?.displayName}</span>
                     </div>
                 )}
               </FirestoreDocument>
