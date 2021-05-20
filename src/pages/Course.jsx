@@ -67,9 +67,6 @@ const CoursePage = ({name, image, price, author, shortDescription, video, user, 
           <p className={classes.shortDescription}>{shortDescription}</p>
           <p>{price} $</p>
           <p>{author}</p>
-        </div>
-        <div>
-          <ReactPlayer url={videoLink} width={300} height={200} controls />
           <Button
               onClick={buyCourse}
               disabled={user?.purchasedCourses?.includes(__id) || isEnabled}

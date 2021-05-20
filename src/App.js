@@ -114,6 +114,7 @@ export const App = () => {
                    .get()
                    .then((snapshot) => {
                        const docs = snapshot.docs
+                        console.log(docs)
                        const data = docs[0].data()
 
                        if (!firebaseUser) {

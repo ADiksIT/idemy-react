@@ -93,7 +93,7 @@ export const SignInForm = ({ signInWithEmailAndPassword, signUpWithEmailAndPassw
               </Grid>
               <Grid item xs>
                 <Link href="#" variant="body2" onClick={() => setIsSign(false)}>
-                  Sign up with Google
+                  Sign up
                 </Link>
               </Grid>
             </Grid>
