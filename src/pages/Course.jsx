@@ -8,37 +8,36 @@ import 'firebase/storage';
 import 'firebase/firestore';
 
 import {useEffect, useState} from "react";
-import ReactPlayer from "react-player";
 
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles(() => ({
+  flex: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   shortDescription: {
     fontSize: 18
   },
   container: {
+    marginTop: '20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: "center",
+  },
+  image: {
+    width: '100%',
+    height: '300px'
+  },
+  button: {
+    width: '100%',
+    height: '60px'
   }
 }));
 
-const CoursePage = ({name, image, price, author, shortDescription, video, user, __id}) => {
+const CoursePage = ({name, image, price, author, shortDescription, user, __id}) => {
   const classes = useStyles();
-  const storage = firebase.storage()
-  const [videoLink, setVideoLink] = useState("")
   const [isEnabled, setIsEnabled] = useState(false)
-
-  useEffect(() => {
-    if (!video) return
-
-    storage
-        .ref( `/video/${video}` )
-        .getDownloadURL()
-        .then( url => {
-          setVideoLink(url)
-          console.log( "Got download url: ", url );
-        });
-
-  }, [video, storage])
 
   useEffect(() => {
     if (!user) return
@@ -61,16 +60,20 @@ const CoursePage = ({name, image, price, author, shortDescription, video, user, 
   return (
       <Container className={classes.container}>
         <div>
-          <Typography variant="h2" style={{ fontWeight: 'bold' }}>
+          <img className={classes.image} src={image} alt={name}/>
+          <Typography variant="h3" style={{ fontWeight: 'bold' }}>
             {name}
           </Typography>
           <p className={classes.shortDescription}>{shortDescription}</p>
-          <p>{price} $</p>
-          <p>{author}</p>
+          <div className={classes.flex}>
+            <p>Author: {author}</p>
+            <p>Price: {price} $</p>
+          </div>
           <Button
               onClick={buyCourse}
               disabled={user?.purchasedCourses?.includes(__id) || isEnabled}
               variant="contained"
+              className={classes.button}
               color="primary"
           >
             {user?.purchasedCourses?.includes(__id) ? "Already purchased" : "Buy for coins"}

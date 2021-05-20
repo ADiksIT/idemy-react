@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {FirestoreDocument} from "@react-firebase/firestore";
 import {useHistory} from "react-router-dom";
+import { ExitToAppRounded } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   logo: {
-    width: '50px',
+    width: '30px',
     marginRight: '10px',
     objectFit: "cover"
   },
@@ -107,6 +108,9 @@ export const TopBar = ({user}) => {
                   onClick={() => history.push('/profile')}
               >
                 <AccountCircle />
+              </IconButton>
+              <IconButton>
+                <ExitToAppRounded color={"secondary"}/>
               </IconButton>
             </div>
           </Toolbar>
