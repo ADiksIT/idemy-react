@@ -3,14 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import {FirestoreDocument} from "@react-firebase/firestore";
-import {LibraryAdd} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 
 
@@ -94,15 +90,13 @@ export const TopBar = ({user}) => {
               </Typography>
             </div>
             <div className={classes.grow} />
-            <div>
-              {/*<IconButton aria-label="show 17 new notifications" color="inherit">*/}
-              {/*  <Badge badgeContent={17} color="secondary">*/}
-              {/*    <LibraryAdd />*/}
-              {/*  </Badge>*/}
-              {/*</IconButton>*/}
+            <div className={classes.flex}>
               <FirestoreDocument path={`/clients/${user?.docId}`}>
                 {res => (
-                    res.isLoading ? "Loading" : <span>{res?.value?.coins}</span>
+                    res.isLoading ? "Loading" : <div>
+                      <span>Coins: {res?.value?.coins} </span> 
+                      <span> User: {res?.value?.displayName}</span>
+                    </div>
                 )}
               </FirestoreDocument>
               <IconButton
