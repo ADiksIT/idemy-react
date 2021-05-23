@@ -8,7 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
@@ -38,7 +38,6 @@ const classes = useStyles()
   return (
       <div>
         <Container className={classes.container}>
-
           {courses.map(course => <CourseProfileCard {...course} />)}
         </Container>
       </div>
