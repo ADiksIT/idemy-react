@@ -9,6 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import {FirestoreDocument} from "@react-firebase/firestore";
 import {useHistory} from "react-router-dom";
 import { ExitToAppRounded } from '@material-ui/icons';
+import firebase from "firebase/app"
+import 'firebase/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +103,7 @@ export const TopBar = ({user}) => {
               <FirestoreDocument path={`/clients/${user?.docId}`}>
                 {res => (
                     res.isLoading ? "Loading" : <div>
-                      <span>Coins: {res?.value?.coins} </span> 
+                      <span>Coins: {res?.value?.coins} </span>
                       <span className={classes.userName}> {res?.value?.displayName}</span>
                     </div>
                 )}
@@ -115,7 +117,7 @@ export const TopBar = ({user}) => {
               >
                 <AccountCircle />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={() => firebase.auth().signOut()} >
                 <ExitToAppRounded color={"secondary"}/>
               </IconButton>
             </div>

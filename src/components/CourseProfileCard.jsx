@@ -43,7 +43,7 @@ export const CourseProfileCard = ({ name, video, author, id }) => {
 
   return (
       <div className={classes.root} >
-        <ReactPlayer url={videoLink} width={500} height={400} controls />
+        <ReactPlayer url={videoLink} width={350} height={400} controls fallback={<span>Loading</span>}  />
         <Typography className={classes.name}>
           {name}
         </Typography>

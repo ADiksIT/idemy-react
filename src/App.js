@@ -90,14 +90,6 @@ export const App = () => {
 
   return (
     <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
-      <button onClick={() => signInWithGoogle()}>Sign In with Google</button>
-      <button
-        onClick={() => {
-          firebase.auth().signOut();
-        }}
-      >
-        Sign Out
-      </button>
       <FirestoreProvider {...firebaseConfig} firebase={firebase}>
         <FirebaseAuthConsumer>
           {({ isSignedIn }) => {
@@ -106,6 +98,7 @@ export const App = () => {
                 <SignInForm
                   signInWithEmailAndPassword={signInWithEmailAndPassword}
                   signUpWithEmailAndPassword={signUpWithEmailAndPassword}
+                  signInWithGoogle={signInWithGoogle}
                 />
               );
             }
