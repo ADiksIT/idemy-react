@@ -22,8 +22,7 @@ const useStyles = makeStyles(() => ({
   container: {
     marginTop: '20px',
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: "center",
+    flexDirection: 'column',
   },
   image: {
     width: '100%',
@@ -59,8 +58,8 @@ const CoursePage = ({name, image, price, author, shortDescription, user, __id}) 
   }
 
   return (
-      <Container className={classes.container}>
-        <div>
+      <Container >
+        <div className={classes.container}>
           <img className={classes.image} src={image} alt={name}/>
           <Typography variant="h3" style={{ fontWeight: 'bold' }}>
             {name}
