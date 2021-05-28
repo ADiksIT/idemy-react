@@ -11,6 +11,8 @@ import {useHistory} from "react-router-dom";
 import { ExitToAppRounded } from '@material-ui/icons';
 import firebase from "firebase/app"
 import 'firebase/auth';
+import React from "react"
+import {useState} from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
     width: '30px',
     marginRight: '10px',
     objectFit: "cover",
-    borderRadius:'50%'
+    borderRadius:'50%',
+    cursor: 'pointer'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -71,21 +74,48 @@ const useStyles = makeStyles((theme) => ({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   width: '10px'
+  },
+  menu: {
+    backgroundColor: 'gray'
   }
 }));
 
 export const TopBar = ({user}) => {
   const classes = useStyles();
   const history = useHistory();
+  const [isOpenMenu, setIsOpenMenu] = React.useState(false)
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const handleClose = () => {
+    setAnchorEl(null);
+    setIsOpenMenu(false)
+  }
+
+  const handleOpen = () => {
+    setIsOpenMenu(true)
+  }
+
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
       <Menu
+          anchorEl={anchorEl}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          id={menuId}
           keepMounted
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={isOpenMenu}
+          onClose={handleClose}
       >
-        <MenuItem >Profile</MenuItem>
-        <MenuItem >My account</MenuItem>
+        <MenuItem onClick={handleClose}>My course</MenuItem>
+        <MenuItem onClick={handleClose}>Purchased course</MenuItem>
+        <FirestoreDocument path={`/clients/${user?.docId}`}>
+          {res => (
+              res.isLoading ? "Loading" : <>
+                <MenuItem>Coins: {res?.value?.coins.toFixed(2)}</MenuItem>
+                <MenuItem>{res?.value?.displayName}</MenuItem>
+              </>
+          )}
+        </FirestoreDocument>
       </Menu>
   );
 
@@ -93,7 +123,7 @@ export const TopBar = ({user}) => {
       <div className={classes.grow}>
         <AppBar position="static">
           <Toolbar>
-            <div className={classes.flex}>
+            <div className={classes.flex} onClick={() => history.push('/')}>
               <img className={classes.logo} src="/img/idemy.jpg" alt=""/>
               <Typography className={classes.title} variant="h6" noWrap>
                 Idemy
@@ -101,20 +131,15 @@ export const TopBar = ({user}) => {
             </div>
             <div className={classes.grow} />
             <div className={classes.flex}>
-              <FirestoreDocument path={`/clients/${user?.docId}`}>
-                {res => (
-                    res.isLoading ? "Loading" : <div>
-                      <span>Coins: {res?.value?.coins.toFixed(2)} </span>
-                      <span className={classes.userName}> {res?.value?.displayName}</span>
-                    </div>
-                )}
-              </FirestoreDocument>
               <IconButton
                   edge="end"
                   aria-label="account of current user"
                   aria-haspopup="true"
                   color="inherit"
-                  onClick={() => history.push('/profile')}
+                  onClick={(event) => {
+                    setAnchorEl(event.currentTarget);
+                    handleOpen()
+                  }}
               >
                 <AccountCircle />
               </IconButton>

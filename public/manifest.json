@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Idemy",
+  "name": "Idemy",
   "icons": [
     {
       "src": "favicon.ico",
@@ -24,8 +24,8 @@
   "background_color": "#ffffff",
   "shortcuts": [
     {
-      "name": "Case Studies",
-      "short_name": "Case Studies",
+      "name": "Idemy",
+      "short_name": "Idemy",
       "url": "/",
       "icons": [
         {
