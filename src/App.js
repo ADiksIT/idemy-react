@@ -14,7 +14,9 @@ import { FirestoreProvider } from '@react-firebase/firestore';
 import { Course } from './pages/Course';
 import { useState } from 'react';
 import { TopBar } from './components/TopBar';
-import { Profile } from './pages/Profile';
+import { Purchased } from './pages/Purchased';
+import {MyCourses} from "./pages/MyCourses";
+import {PurchasedCourse} from "./pages/PurchasedCourse";
 
 const Routing = ({ firebaseUser }) => (
   <Router>
@@ -24,9 +26,17 @@ const Routing = ({ firebaseUser }) => (
           <TopBar user={firebaseUser} />
           <Course user={firebaseUser} />
         </Route>
-        <Route path="/profile">
+        <Route path="/purchased/:id">
           <TopBar user={firebaseUser} />
-          <Profile user={firebaseUser} />
+          <PurchasedCourse/>
+        </Route>
+        <Route path="/purchased">
+          <TopBar user={firebaseUser} />
+          <Purchased user={firebaseUser} />
+        </Route>
+        <Route path="/my_courses">
+          <TopBar user={firebaseUser} />
+          <MyCourses user={firebaseUser} />
         </Route>
         <Route path="/">
           <TopBar user={firebaseUser} />
@@ -66,26 +76,26 @@ export const App = () => {
   const signInWithGoogle = () => {
     const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
     firebase
-      .auth()
-      .signInWithPopup(googleAuthProvider)
-      .then((firebaseUser) => createUser(firebaseUser))
-      .catch((error) => alert(error?.message));
+        .auth()
+        .signInWithPopup(googleAuthProvider)
+        .then((firebaseUser) => createUser(firebaseUser))
+        .catch((error) => alert(error?.message));
   };
 
   const signInWithEmailAndPassword = (email, password) => {
     firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((firebaseUser) => createUser(firebaseUser))
-      .catch((error) => alert(error?.message));
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((firebaseUser) => createUser(firebaseUser))
+        .catch((error) => alert(error?.message));
   };
 
   const signUpWithEmailAndPassword = (email, password) => {
     firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((firebaseUser) => createUser(firebaseUser))
-      .catch((error) => alert(error?.message));
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((firebaseUser) => createUser(firebaseUser))
+        .catch((error) => alert(error?.message));
   };
 
   return (

@@ -4,20 +4,25 @@ import {CourseProfileCard} from "../components/CourseProfileCard";
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import {makeStyles} from "@material-ui/core/styles";
+import {CourseCard} from "../components/CourseCard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    padding: '20px 20px 0 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
 }));
 
 
-export const Profile = ({user}) => {
+export const Purchased = ({user}) => {
   const [courses, setCourses] = useState([])
-const classes = useStyles()
+  const [coursesId, setCoursesId] = useState([])
+
+  const classes = useStyles()
+
   useEffect(() => {
     if (!user) return
 
@@ -26,9 +31,9 @@ const classes = useStyles()
 
     firestore.collection("clients").doc(user.docId).onSnapshot(snapshot => {
       const coursesDocId = snapshot.data().purchasedCourses
+      setCoursesId(coursesDocId)
       coursesRef.onSnapshot(snapshot => {
         const userCourses = snapshot.docs.filter(d => coursesDocId.includes(d.id))
-        console.log(userCourses.map(d => d.data()))
         setCourses(userCourses.map(d => d.data()))
       })
     })
@@ -38,7 +43,16 @@ const classes = useStyles()
   return (
       <div>
         <Container className={classes.container}>
-          {courses.map(course => <CourseProfileCard {...course} />)}
+          {courses.map((course, id) =>
+              <CourseCard
+                  price={course.price}
+                  image={course.image}
+                  author={course.author}
+                  name={course.name}
+                  id={coursesId[id]}
+                  isBuy={true}
+              />)
+          }
         </Container>
       </div>
   )

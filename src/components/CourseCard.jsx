@@ -9,7 +9,7 @@ import { Redirect, useHistory } from "react-router-dom"
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    height: 350,
+    height: 340,
     marginBottom: '20px',
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
@@ -38,16 +38,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const CourseCard = ({ price, name, image, author, id }) => {
+export const CourseCard = ({ price, name, image, author, id, isBuy = false }) => {
   const classes = useStyles();
   const history = useHistory();
 
+  const handleClick = () => {
+    if (!isBuy) {
+      history.push(`/courses/${id}`)
+      return
+    }
+
+    history.push(`/purchased/${id}`)
+  }
+
   return (
-      <Card className={classes.root} onClick={() => history.push(`/courses/${id}`)}>
+      <Card className={classes.root} onClick={handleClick}>
         <CardMedia
             className={classes.media}
             image={image}
-            title="Paella dish"
+            title={name}
         />
         <CardContent>
           <Typography className={classes.name}>
@@ -58,9 +67,9 @@ export const CourseCard = ({ price, name, image, author, id }) => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <span className={classes.price}>
+          {!isBuy && <span className={classes.price}>
             {price} $
-          </span>
+          </span>}
         </CardActions>
       </Card>
   )

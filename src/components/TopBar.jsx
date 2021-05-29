@@ -95,6 +95,16 @@ export const TopBar = ({user}) => {
     setIsOpenMenu(true)
   }
 
+  const handleClickPurchasedCourses = () => {
+    handleClose()
+    history.push('/purchased')
+  }
+
+  const handleClickMyCourses = () => {
+    handleClose()
+    history.push('/my_courses')
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
       <Menu
@@ -106,8 +116,8 @@ export const TopBar = ({user}) => {
           open={isOpenMenu}
           onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>My course</MenuItem>
-        <MenuItem onClick={handleClose}>Purchased course</MenuItem>
+        <MenuItem onClick={handleClickMyCourses}>My course</MenuItem>
+        <MenuItem onClick={handleClickPurchasedCourses}>Purchased course</MenuItem>
         <FirestoreDocument path={`/clients/${user?.docId}`}>
           {res => (
               res.isLoading ? "Loading" : <>
