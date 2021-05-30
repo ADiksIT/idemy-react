@@ -17,6 +17,7 @@ import { TopBar } from './components/TopBar';
 import { Purchased } from './pages/Purchased';
 import {MyCourses} from "./pages/MyCourses";
 import {PurchasedCourse} from "./pages/PurchasedCourse";
+import {MyCourseCreate} from "./pages/MyCourseCreate";
 
 const Routing = ({ firebaseUser }) => (
   <Router>
@@ -34,9 +35,13 @@ const Routing = ({ firebaseUser }) => (
           <TopBar user={firebaseUser} />
           <Purchased user={firebaseUser} />
         </Route>
-        <Route path="/my_courses">
+        <Route exact path="/my_courses">
           <TopBar user={firebaseUser} />
           <MyCourses user={firebaseUser} />
+        </Route>
+        <Route exact path="/my_courses_create">
+          <TopBar user={firebaseUser} />
+          <MyCourseCreate user={firebaseUser} />
         </Route>
         <Route path="/">
           <TopBar user={firebaseUser} />

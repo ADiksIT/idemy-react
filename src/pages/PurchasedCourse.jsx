@@ -110,6 +110,7 @@ export const PurchasedCourse = () => {
     <Container className={classes.root}>
       <FirestoreDocument path={`/courses/${params.id}`}>
         {d => {
+          console.log(d.value)
           return d.isLoading ? <CircularProgress /> : <div>
             <HeaderCourses {...d.value}/>
             {d.value?.videos.map((id, idx) => <AccordionItem id={id} key={idx} index={idx} />)}
