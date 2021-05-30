@@ -71,6 +71,7 @@ export const App = () => {
           usersRef.add({
             uid: googleUser.user.uid,
             purchasedCourses: [],
+            myCourse: [],
             coins: 0,
             displayName: googleUser.user.displayName || 'Anonimus',
           });

@@ -35,7 +35,8 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const CoursePage = ({name, image, price, author, shortDescription, user, __id}) => {
+const CoursePage = ({name, image, price, author, shortDescription, user, count, authorId, __id}) => {
+  console.log(__id, authorId, count)
   const classes = useStyles();
   const [isEnabled, setIsEnabled] = useState(false)
 
@@ -48,6 +49,19 @@ const CoursePage = ({name, image, price, author, shortDescription, user, __id}) 
   const buyCourse = () => {
     const db = firebase.firestore()
     const clientRef = db.collection("clients")
+    const coursesRef = db.collection("courses")
+
+
+    clientRef.doc(authorId).get().then(d => {
+      const userData = d.data()
+      clientRef.doc(authorId).update({
+        coins: Number(userData.coins) + Number(price)
+      })
+    })
+
+    coursesRef.doc(__id).update({
+      count: count + 1
+    })
 
     clientRef.doc(user.docId).update({
       coins: user.coins - price,

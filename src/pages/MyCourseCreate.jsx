@@ -11,6 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import 'firebase/firestore';
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   column: {
@@ -68,6 +69,8 @@ const CourseCreateVideo = ({title, description, id, changeVideoInfo}) => {
 
 export const MyCourseCreate = ({ user }) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [videos, setVideos] = useState([])
   const [courseInfo, setCourseInfo] = useState({
     image: "",
@@ -75,7 +78,8 @@ export const MyCourseCreate = ({ user }) => {
     shortDescription: "",
     price: 0,
     videos: [],
-    author: ""
+    author: "",
+    authorUID: ""
   })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -99,6 +103,7 @@ export const MyCourseCreate = ({ user }) => {
 
     const videosRef = db.collection("videos")
     const coursesRef = db.collection("courses")
+    const clientsRef = db.collection("clients")
 
     const storageRef = storage.ref()
 
@@ -116,8 +121,17 @@ export const MyCourseCreate = ({ user }) => {
       const course = courseInfo
       course.videos = videoIds
       course.author = user.displayName
+      course.authorId = user.docId
+      course.count = 0
 
-      coursesRef.add(course)
+      coursesRef.add(course).then(v => {
+        clientsRef.doc(user.docId).get().then(d => {
+          const userData = d.data()
+          clientsRef.doc(user.docId).update({
+            myCourse: [...userData.myCourse, v.id]
+          })
+        })
+      })
     })
 
     const videoFiles = videos.map((v) => v.video)
@@ -125,6 +139,8 @@ export const MyCourseCreate = ({ user }) => {
     const videosPromise = videoFiles.map(video => storageRef.child('video/' + video.name).put(video))
     Promise.all(videosPromise).then(values => {
       setIsLoading(false)
+      alert("Course was successfully uploaded")
+      history.push('/')
     }).catch(e => {
       setIsLoading(false)
       alert(e.message)
