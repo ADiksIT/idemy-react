@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import {Container} from "@material-ui/core";
-import {CourseProfileCard} from "../components/CourseProfileCard";
+
 import firebase from "firebase/app";
 import 'firebase/firestore';
+
 import {makeStyles} from "@material-ui/core/styles";
 import {CourseCard} from "../components/CourseCard";
 
@@ -32,9 +33,10 @@ export const Purchased = ({user}) => {
     firestore.collection("clients").doc(user.docId).onSnapshot(snapshot => {
       const coursesDocId = snapshot.data().purchasedCourses
       setCoursesId(coursesDocId)
-      coursesRef.onSnapshot(snapshot => {
-        const userCourses = snapshot.docs.filter(d => coursesDocId.includes(d.id))
-        setCourses(userCourses.map(d => d.data()))
+      const request = coursesDocId.map((id) => coursesRef.doc(id).get())
+      Promise.all(request).then(values => {
+        const data = values.map((value) => value.data())
+        setCourses([...data])
       })
     })
 
