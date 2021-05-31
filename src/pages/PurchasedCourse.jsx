@@ -16,7 +16,8 @@ import {useImage} from "../hooks/Image";
 const useStyles = makeStyles(() => ({
   courseImage: {
     width: '100%',
-    objectFit: 'fill',
+    height: '250px',
+    objectFit: 'cover',
   },
   root: {
     marginTop: '15px'
@@ -41,11 +42,13 @@ const AccordionInfo = ({ title, description, videoLink }) => {
           <Typography >{title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <div classes={classes.column}>
-            <ReactPlayer url={videoLink} width="100%" height={185} controls fallback={<span>Loading</span>}  />
-            <Typography>
-              {description}
-            </Typography>
+          <div className={classes.column}>
+            <ReactPlayer url={videoLink}  width="100%" height={185} controls fallback={<span>Loading</span>}  />
+            <div style={{marginTop: '20px'}}>
+              <Typography>
+                {description}
+              </Typography>
+            </div>
           </div>
         </AccordionDetails>
       </Accordion>
@@ -53,7 +56,6 @@ const AccordionInfo = ({ title, description, videoLink }) => {
 }
 
 const AccordionItem = ({ id, index }) => {
-  console.log(id)
   const [video, setVideo] = useState("")
   const [videoLink, setVideoLink] = useState("")
   const storage = firebase.storage()
@@ -98,7 +100,7 @@ const HeaderCourses = ({ image, name, shortDescription }) => {
   return (
     <div>
       <img className={classes.courseImage} src={url} alt={name} />
-      <p>{name}</p>
+      <Typography variant="h3">{name}</Typography>
       <p>{shortDescription}</p>
     </div>
   )

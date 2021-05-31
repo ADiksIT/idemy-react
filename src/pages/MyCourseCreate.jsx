@@ -12,6 +12,7 @@ import firebase from 'firebase/app';
 import 'firebase/storage';
 import 'firebase/firestore';
 import {useHistory} from "react-router-dom";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   column: {
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 999,
     color: '#fff',
   },
+  mb: {
+    marginBottom: '10px',
+  }
 }));
 
 const CourseCreateVideo = ({title, description, id, changeVideoInfo}) => {
@@ -56,12 +60,12 @@ const CourseCreateVideo = ({title, description, id, changeVideoInfo}) => {
         </AccordionSummary>
         <AccordionDetails>
           <div className={classes.column}>
-            {videoName ? videoName : <Button color="primary" onClick={() => {fileRef.current.click()}}>
+            <TextField className={classes.mb} label="Video title" name="title" value={title} onChange={handleInputChange} />
+            <TextField className={classes.mb} label="Video description" name="description" value={description} onChange={handleInputChange} />
+            {videoName ? <Typography >{videoName}</Typography> : <Button color="primary" variant="outlined" onClick={() => {fileRef.current.click()}}>
               Load video
               <input ref={fileRef} name="video" accept=".mp4" type="file" hidden onChange={handleInputChange}/>
             </Button>}
-            <TextField label="Video title" name="title" value={title} onChange={handleInputChange} />
-            <TextField label="Video description" name="description" value={description} onChange={handleInputChange} />
           </div>
         </AccordionDetails>
       </Accordion>
@@ -108,6 +112,11 @@ export const MyCourseCreate = ({ user }) => {
   }
 
   const handleClickSaveButton = () => {
+    if (!imageName) {
+      alert("Please, add image")
+      return
+    }
+
     const db = firebase.firestore()
     const storage = firebase.storage()
 
@@ -177,16 +186,23 @@ export const MyCourseCreate = ({ user }) => {
           <CircularProgress color="inherit" />
         </Backdrop>
         <div className={classes.column}>
-          <TextField label="Course Title" name="name" value={courseInfo.name} onChange={changeCourseInfo}/>
-          <TextField label="Course Description" name="shortDescription" value={courseInfo.shortDescription} onChange={changeCourseInfo}/>
+          <TextField required className={classes.mb} label="Course Title" name="name" value={courseInfo.name} onChange={changeCourseInfo}/>
+          <TextField required className={classes.mb} label="Course Description" name="shortDescription" value={courseInfo.shortDescription} onChange={changeCourseInfo}/>
+          <TextField required className={classes.mb} label="Price" type="number" name="price" value={courseInfo.price} onChange={changeCourseInfo} />
           {imageName
-              ? imageName?.name
-              : <TextField label="Image course link" name="image" type="file" value={courseInfo.image} onChange={changeCourseInfo}/>
-          }
-          <TextField label="Price" type="number" name="price" value={courseInfo.price} onChange={changeCourseInfo} />
+              ? <Typography className={classes.mb}>{imageName?.name}</Typography>
+              : <Button className={classes.mb}  onClick={() => {imageRef.current.click()}} variant="outlined" color="primary">
+                   Load Photo
+                <input ref={imageRef} name="image" accept=".jpg, .png, .jpeg" type="file" hidden onChange={changeCourseInfo}/>
+          </Button>}
         </div>
         <Divider/>
-        <Button onClick={handleClickCreateButton}>Add video</Button>
+        <div style={{width: '100%', marginTop: '15px', marginBottom: '15px', display: 'flex', justifyContent: 'center'}}>
+          <Fab color="primary" variant="extended" onClick={handleClickCreateButton}>
+            <AddIcon/>
+            Add video
+          </Fab>
+        </div>
         {videos.map((video, idx) => <CourseCreateVideo {...video} id={idx} key={idx} changeVideoInfo={changeVideoInfo} />)}
         <Fab className={classes.fab} color="primary" aria-label="add" onClick={handleClickSaveButton}>
           <SaveIcon />

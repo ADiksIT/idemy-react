@@ -1,10 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {CourseCard} from "../components/CourseCard";
 import {FirestoreCollection} from "@react-firebase/firestore";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   courseContainer: {
-    padding: '20px 20px 0 20px',
+    width: '96%%',
+    paddingTop: '15px',
+    margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -15,15 +18,13 @@ const useStyles = makeStyles((theme) => ({
 export const Courses = () => {
   const classes = useStyles();
   return (
-      <div>
-        <div className={classes.courseContainer}>
+      <Container className={classes.courseContainer}>
           <FirestoreCollection path="/courses/" >
             {response => {
               return response.isLoading ? "Loading" : response.value.map((data, idx) =>
                   <CourseCard {...data} id={response.ids[idx]} key={idx}/>)
             }}
           </FirestoreCollection>
-        </div>
-      </div>
+      </Container>
   );
 }

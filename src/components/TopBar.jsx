@@ -121,8 +121,8 @@ export const TopBar = ({user}) => {
         <FirestoreDocument path={`/clients/${user?.docId}`}>
           {res => (
               res.isLoading ? "Loading" : <>
-                <MenuItem>Coins: {res?.value?.coins?.toFixed(2)}</MenuItem>
-                <MenuItem>{res?.value?.displayName}</MenuItem>
+                <MenuItem disabled>Coins: {res?.value?.coins?.toFixed(2)}</MenuItem>
+                <MenuItem disabled>{res?.value?.displayName}</MenuItem>
               </>
           )}
         </FirestoreDocument>

@@ -4,26 +4,25 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import {makeStyles} from "@material-ui/core/styles";
-import { Redirect, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import {useImage} from "../hooks/Image";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+    width: 345,
     height: 340,
     marginBottom: '20px',
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
   media: {
     width: '345px',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
     height: '200px'
-  },
-  courseContainer: {
-    padding: '20px 20px 0 20px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap'
   },
   name: {
     fontWeight: 'bold'
