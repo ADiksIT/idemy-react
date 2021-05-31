@@ -11,6 +11,7 @@ import {CircularProgress, Container} from "@material-ui/core";
 import firebase from "firebase";
 import 'firebase/firestore'
 import ReactPlayer from "react-player";
+import {useImage} from "../hooks/Image";
 
 const useStyles = makeStyles(() => ({
   courseImage: {
@@ -92,10 +93,11 @@ const AccordionItem = ({ id, index }) => {
 
 const HeaderCourses = ({ image, name, shortDescription }) => {
   const classes = useStyles();
+  const url = useImage(image)
 
   return (
     <div>
-      <img className={classes.courseImage} src={image} alt={name} />
+      <img className={classes.courseImage} src={url} alt={name} />
       <p>{name}</p>
       <p>{shortDescription}</p>
     </div>
