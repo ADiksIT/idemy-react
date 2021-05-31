@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
 import {Container} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import {CourseCard} from "../components/CourseCard";
 
 import firebase from "firebase/app";
 import 'firebase/firestore';
-
-import {makeStyles} from "@material-ui/core/styles";
-import {CourseCard} from "../components/CourseCard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap'
   },
 }));
-
 
 export const Purchased = ({user}) => {
   const [courses, setCourses] = useState([])

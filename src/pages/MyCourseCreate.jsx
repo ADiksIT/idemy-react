@@ -36,6 +36,7 @@ const CourseCreateVideo = ({title, description, id, changeVideoInfo}) => {
   const fileRef = useRef(null)
   const [videoName, setVideoName] = useState("")
 
+
   const handleInputChange = (event) => {
     changeVideoInfo(event, id)
     if (event.target.name === "video") {
@@ -70,6 +71,8 @@ const CourseCreateVideo = ({title, description, id, changeVideoInfo}) => {
 export const MyCourseCreate = ({ user }) => {
   const classes = useStyles();
   const history = useHistory();
+  const imageRef = useRef(null)
+  const [imageName, setImageName] = useState(null)
 
   const [videos, setVideos] = useState([])
   const [courseInfo, setCourseInfo] = useState({
@@ -90,6 +93,13 @@ export const MyCourseCreate = ({ user }) => {
   })
 
   const changeCourseInfo = ({target}) => {
+    if (target.name === "image") {
+      const file = target.files[0]
+      setImageName(file)
+      setCourseInfo({...courseInfo, image: file})
+      return
+    }
+
     setCourseInfo({...courseInfo, [target.name]: target.value})
   }
 
@@ -119,9 +129,11 @@ export const MyCourseCreate = ({ user }) => {
       const videoIds = values.map(v => v.id)
 
       const course = courseInfo
+
       course.videos = videoIds
       course.author = user.displayName
       course.authorId = user.docId
+      course.image = imageName.name
       course.count = 0
 
       coursesRef.add(course).then(v => {
@@ -133,6 +145,8 @@ export const MyCourseCreate = ({ user }) => {
         })
       })
     })
+
+    storageRef.child('images/' + imageName.name).put(imageName)
 
     const videoFiles = videos.map((v) => v.video)
 
@@ -165,8 +179,11 @@ export const MyCourseCreate = ({ user }) => {
         <div className={classes.column}>
           <TextField label="Course Title" name="name" value={courseInfo.name} onChange={changeCourseInfo}/>
           <TextField label="Course Description" name="shortDescription" value={courseInfo.shortDescription} onChange={changeCourseInfo}/>
-          <TextField label="Image course link" name="image" value={courseInfo.image} onChange={changeCourseInfo}/>
-          <TextField label="Price" type="number" name="price" value={courseInfo.price} onChange={changeCourseInfo}/>
+          {imageName
+              ? imageName?.name
+              : <TextField label="Image course link" name="image" type="file" value={courseInfo.image} onChange={changeCourseInfo}/>
+          }
+          <TextField label="Price" type="number" name="price" value={courseInfo.price} onChange={changeCourseInfo} />
         </div>
         <Divider/>
         <Button onClick={handleClickCreateButton}>Add video</Button>

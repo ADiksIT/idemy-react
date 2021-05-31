@@ -8,6 +8,7 @@ import 'firebase/storage';
 import 'firebase/firestore';
 
 import {useEffect, useState} from "react";
+import {useImage} from "../hooks/Image";
 
 
 const useStyles = makeStyles(() => ({
@@ -36,9 +37,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CoursePage = ({name, image, price, author, shortDescription, user, count, authorId, __id}) => {
-  console.log(__id, authorId, count)
   const classes = useStyles();
   const [isEnabled, setIsEnabled] = useState(false)
+  const url = useImage(image)
 
   useEffect(() => {
     if (!user) return
@@ -74,7 +75,7 @@ const CoursePage = ({name, image, price, author, shortDescription, user, count, 
   return (
       <Container >
         <div className={classes.container}>
-          <img className={classes.image} src={image} alt={name}/>
+          <img className={classes.image} src={url} alt={name}/>
           <Typography variant="h3" style={{ fontWeight: 'bold' }}>
             {name}
           </Typography>

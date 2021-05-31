@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import {makeStyles} from "@material-ui/core/styles";
 import { Redirect, useHistory } from "react-router-dom"
+import {useImage} from "../hooks/Image";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export const CourseCard = ({ price, name, image, author, id, isBuy = false }) => {
   const classes = useStyles();
   const history = useHistory();
+  const url = useImage(image)
 
   const handleClick = () => {
     if (!isBuy) {
@@ -55,7 +57,7 @@ export const CourseCard = ({ price, name, image, author, id, isBuy = false }) =>
       <Card className={classes.root} onClick={handleClick}>
         <CardMedia
             className={classes.media}
-            image={image}
+            image={url}
             title={name}
         />
         <CardContent>
