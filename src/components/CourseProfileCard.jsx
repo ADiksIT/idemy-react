@@ -12,9 +12,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    width: '100%',
-    height: 400,
+    width: '350px',
+    height: 320,
     marginBottom: '20px',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   name: {
     fontWeight: 'bold'
@@ -43,7 +46,7 @@ export const CourseProfileCard = ({ name, video, author, id }) => {
 
   return (
       <div className={classes.root} >
-        <ReactPlayer url={videoLink} width={500} height={400} controls />
+        <ReactPlayer url={videoLink} width={350} height={300} controls fallback={<span>Loading</span>}  />
         <Typography className={classes.name}>
           {name}
         </Typography>

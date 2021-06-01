@@ -8,37 +8,38 @@ import 'firebase/storage';
 import 'firebase/firestore';
 
 import {useEffect, useState} from "react";
-import ReactPlayer from "react-player";
+import {useImage} from "../hooks/Image";
 
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles(() => ({
+  flex: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   shortDescription: {
     fontSize: 18
   },
   container: {
+    marginTop: '20px',
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: "center",
+    flexDirection: 'column',
+  },
+  image: {
+    width: '100%',
+    height: '300px',
+    objectFit: 'cover'
+  },
+  button: {
+    width: '100%',
+    height: '60px'
   }
 }));
 
-const CoursePage = ({name, image, price, author, shortDescription, video, user, __id}) => {
+const CoursePage = ({name, image, price, author, shortDescription, user, count, authorId, __id}) => {
   const classes = useStyles();
-  const storage = firebase.storage()
-  const [videoLink, setVideoLink] = useState("")
   const [isEnabled, setIsEnabled] = useState(false)
-
-  useEffect(() => {
-    if (!video) return
-
-    storage
-        .ref( `/video/${video}` )
-        .getDownloadURL()
-        .then( url => {
-          setVideoLink(url)
-          console.log( "Got download url: ", url );
-        });
-
-  }, [video, storage])
+  const url = useImage(image)
 
   useEffect(() => {
     if (!user) return
@@ -49,6 +50,19 @@ const CoursePage = ({name, image, price, author, shortDescription, video, user, 
   const buyCourse = () => {
     const db = firebase.firestore()
     const clientRef = db.collection("clients")
+    const coursesRef = db.collection("courses")
+
+
+    clientRef.doc(authorId).get().then(d => {
+      const userData = d.data()
+      clientRef.doc(authorId).update({
+        coins: Number(userData.coins) + Number(price)
+      })
+    })
+
+    coursesRef.doc(__id).update({
+      count: count + 1
+    })
 
     clientRef.doc(user.docId).update({
       coins: user.coins - price,
@@ -59,21 +73,22 @@ const CoursePage = ({name, image, price, author, shortDescription, video, user, 
   }
 
   return (
-      <Container className={classes.container}>
-        <div>
-          <Typography variant="h2" style={{ fontWeight: 'bold' }}>
+      <Container >
+        <div className={classes.container}>
+          <img className={classes.image} src={url} alt={name}/>
+          <Typography variant="h3" style={{ fontWeight: 'bold' }}>
             {name}
           </Typography>
           <p className={classes.shortDescription}>{shortDescription}</p>
-          <p>{price} $</p>
-          <p>{author}</p>
-        </div>
-        <div>
-          <ReactPlayer url={videoLink} width={300} height={200} controls />
+          <div className={classes.flex}>
+            <p>Author: {author}</p>
+            <p>Price: {price} $</p>
+          </div>
           <Button
               onClick={buyCourse}
               disabled={user?.purchasedCourses?.includes(__id) || isEnabled}
               variant="contained"
+              className={classes.button}
               color="primary"
           >
             {user?.purchasedCourses?.includes(__id) ? "Already purchased" : "Buy for coins"}

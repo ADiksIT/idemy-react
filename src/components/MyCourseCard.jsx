@@ -1,28 +1,29 @@
+import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import {makeStyles} from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom"
-import {useImage} from "../hooks/Image";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
-    width: 345,
+    maxWidth: 345,
     height: 340,
     marginBottom: '20px',
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
   media: {
     width: '345px',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
     height: '200px'
+  },
+  courseContainer: {
+    padding: '20px 20px 0 20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap'
   },
   name: {
     fontWeight: 'bold'
@@ -31,32 +32,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '13px',
     color: 'gray'
   },
-  price: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    marginLeft: '10px',
-  }
 }));
 
-export const CourseCard = ({ price, name, image, author, id, isBuy = false }) => {
+export const MyCourseCard = ({name, image, author}) => {
   const classes = useStyles();
-  const history = useHistory();
-  const url = useImage(image)
-
-  const handleClick = () => {
-    if (!isBuy) {
-      history.push(`/courses/${id}`)
-      return
-    }
-
-    history.push(`/purchased/${id}`)
-  }
 
   return (
-      <Card className={classes.root} onClick={handleClick}>
+      <Card className={classes.root}>
         <CardMedia
             className={classes.media}
-            image={url}
+            image={image}
             title={name}
         />
         <CardContent>
@@ -67,11 +52,6 @@ export const CourseCard = ({ price, name, image, author, id, isBuy = false }) =>
             {author}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
-          {!isBuy && <span className={classes.price}>
-            {price} $
-          </span>}
-        </CardActions>
       </Card>
-  )
-}
+  );
+};

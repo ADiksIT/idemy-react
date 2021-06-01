@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignInForm = ({ signInWithEmailAndPassword, signUpWithEmailAndPassword }) => {
+export const SignInForm = ({ signInWithEmailAndPassword, signUpWithEmailAndPassword, signInWithGoogle }) => {
   const classes = useStyles();
   const [isSign, setIsSign] = useState(true)
   const [email, setEmail] = useState("")
@@ -86,14 +86,14 @@ export const SignInForm = ({ signInWithEmailAndPassword, signUpWithEmailAndPassw
               {isSign ? "Sign in" : "Sign up"}
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs onClick={() => signInWithGoogle()}>
                 <Link href="#" variant="body2">
                   Sign in with Google
                 </Link>
               </Grid>
               <Grid item xs>
                 <Link href="#" variant="body2" onClick={() => setIsSign(false)}>
-                  Sign up with Google
+                  Sign up
                 </Link>
               </Grid>
             </Grid>
